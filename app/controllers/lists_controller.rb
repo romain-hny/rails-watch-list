@@ -1,3 +1,5 @@
+# require 'open_uri'
+
 class ListsController < ApplicationController
   before_action :set_list, only: [:show]
 
@@ -15,6 +17,12 @@ class ListsController < ApplicationController
 
   def create
     @list = List.new(list_params)
+    uploaded_file = list_params[:picture]
+    File.open(Rails.root.join('app', 'assets', 'images', uploaded_file.original_filename), 'wb') do |file|
+      file.write(uploaded_file.read)
+    end
+    # @list.picture.attach(io: file, filename: list_params[:name], content_type: uploaded_file.content_type)
+    Cloudinary::Uploader.upload("/Users/rhny/code/romain-hny/rails-watch-list/app/assets/images/#{uploaded_file.original_filename}")
     if @list.save
       redirect_to list_path(@list)
     else
@@ -29,6 +37,6 @@ class ListsController < ApplicationController
   end
 
   def list_params
-    params.require(:list).permit(:name)
+    params.require(:list).permit(:name, :picture)
   end
 end

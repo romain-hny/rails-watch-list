@@ -8,7 +8,7 @@
             <p><%= bookmark.movie.overview %></p>
         </div>
         <div class="card-movie-comment">
-            <p><%= bookmark.comment %></p>
+            <p><i class="fa-solid fa-quote-right"></i> <%= bookmark.comment %></p>
             <h2><%= link_to 'Delete', bookmark_path(bookmark), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }  %></h2>
         </div>
       </div>
